@@ -1,0 +1,40 @@
+---
+title: "Evictions EDA"
+author: "Callan Hoskins"
+date: "`r Sys.Date()`"
+output: 
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+# Libraries
+library(tidyverse)
+
+# Parameters
+evictions_path <- here::here("data/evictions_boundaries.rds")
+
+#===============================================================================
+```
+
+## Read in cleaned evictions data
+
+```{r}
+evictions <- read_rds(evictions_path)
+evictions %>% 
+  glimpse()
+```
+
+## Find SC city with the most evictions in 2016
+
+```{r}
+evictions %>% 
+  count(GEOID, name, wt = evictions) %>% 
+  top_n(n = 1, wt = n)
+```
+
+North Charleston has the most evictions in 2016. Sayanara North Charleston!
